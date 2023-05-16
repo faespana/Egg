@@ -19,7 +19,7 @@ export default function App() {
       },
     });
   }, []);
-  /*Esto es una prueba segundo commit*/
+  /*Esto es una prueba segundo commit por Felipao*/
   return (
     <div className="py-8">
       <NewsCards articles={newsArticles} />
