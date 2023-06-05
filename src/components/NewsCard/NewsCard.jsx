@@ -1,9 +1,34 @@
-import React, { useState } from "react";
+import React, { createRef, useEffect, useState } from "react";
 
-const NewsCard = ({ article, i }) => {
+const NewsCard = ({ article, i, activeArticle }) => {
   console.log(article);
+
+  const [elRefs, setElRefs] = useState([]);
+  const scrollToRef = (ref) => window.scroll(0, ref.current.offsetTop - 50);
+
+  useEffect(() => {
+    setElRefs((refs) =>
+      Array(20)
+        .fill()
+        .map((_, j) => refs[j] || createRef())
+    );
+  }, []);
+
+  useEffect(() => {
+    if (i === activeArticle && elRefs[activeArticle]) {
+      scrollToRef(elRefs[activeArticle]);
+    }
+  }, [i, activeArticle, elRefs]);
+
   return (
-    <div className="w-full max-w-[290px] h-auto rounded-xl overflow-hidden transition-transform ease-out duration-200 hover:ease-in hover:scale-105 shadow shadow-black-500/40 flex flex-col justify-between">
+    <div
+      ref={elRefs[i]}
+      className={
+        activeArticle === i
+          ? "w-full max-w-[290px] h-auto rounded-xl  overflow-hidden transition-transform ease-out duration-200 hover:ease-in hover:scale-105 shadow shadow-black-500/40 flex flex-col justify-between bg-slate-50 border-solid border-blue-600 border-b-8"
+          : "w-full max-w-[290px] h-auto rounded-xl  overflow-hidden transition-transform ease-out duration-200 hover:ease-in hover:scale-105 shadow shadow-black-500/40 flex flex-col justify-between bg-slate-50"
+      }
+    >
       <div>
         <section className="w-full mb-2">
           <img
